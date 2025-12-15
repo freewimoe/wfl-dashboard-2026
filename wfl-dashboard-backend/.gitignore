@@ -1,0 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+.ven/
+venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Caches
+.pytest_cache/
+.mypy_cache/
+
+# IDE / editor settings
+.vscode/
+.idea/
+
+# Environment / secrets
+.env
+.env.*
+
+# Logs
+*.log
+
+# Local tooling
+coverage/
+.DS_Store
+data.db
+
+# Chat logs
+chat-logs/
