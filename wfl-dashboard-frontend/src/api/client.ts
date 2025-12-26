@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// Erstelle eine Axios-Instanz mit der Basis-URL des Backends
+// Basis-URL relativ, damit Nginx im Container auf den Backend-Service proxyt
 const client = axios.create({
-  baseURL: 'http://localhost:8000/api', // Stelle sicher, dass dies mit deinem Backend-Port übereinstimmt
+  baseURL: '/api',
   headers: {
     'Content-Type': 'application/json',
   },
