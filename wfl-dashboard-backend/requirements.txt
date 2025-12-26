@@ -3,7 +3,9 @@ uvicorn
 python-dotenv
 sqlalchemy
 pydantic-settings
-passlib[bcrypt]
+# Pin bcrypt to a passlib-compatible version to avoid runtime errors
+passlib[bcrypt]==1.7.4
+bcrypt==3.2.0
 python-jose[cryptography]
 alembic
 python-multipart
