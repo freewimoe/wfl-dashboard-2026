@@ -7,12 +7,10 @@ services:
       - "8000:8000"
     environment:
       - DATABASE_URL=sqlite:///./wfl.db
-    volumes:
-      - ./wfl-dashboard-backend/wfl.db:/app/wfl.db
 
   frontend:
     build: ./wfl-dashboard-frontend
     ports:
-      - "80:80"
+      - "3000:80"
     depends_on:
       - backend
