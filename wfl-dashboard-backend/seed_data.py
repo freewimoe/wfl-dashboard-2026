@@ -5,7 +5,8 @@ from datetime import datetime, timedelta
 # Add current directory to path to allow imports from app
 sys.path.append(os.getcwd())
 
-from app.db.session import SessionLocal
+from app.db.session import SessionLocal, engine
+from app.db import base
 from app.db.models.user import User
 from app.db.models.project import Project
 from app.db.models.news import News
@@ -16,6 +17,9 @@ from app.db.models.system_status import SystemStatus
 from app.core.security import get_password_hash
 
 def seed():
+    # Ensure tables exist when running the seeder standalone (without FastAPI startup)
+    base.Base.metadata.create_all(bind=engine)
+
     db = SessionLocal()
     
     try:
