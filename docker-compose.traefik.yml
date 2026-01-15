@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  backend:
+    build: /home/fwmoe/wfl-dashboard-2026/wfl-dashboard-backend
+    container_name: wfl_dashboard_backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=sqlite:///./wfl.db
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-here}
+    volumes:
+      - dashboard_data:/app
+    networks:
+      - wfl_internal
+    labels:
+      - traefik.enable=true
+      # Route for /api paths
+      - traefik.http.routers.dashboard_api.rule=Host(`dashboard.${DOMAIN}`) && PathPrefix(`/api`)
+      - traefik.http.routers.dashboard_api.entrypoints=web
+      - traefik.http.services.dashboard_api.loadbalancer.server.port=8000
+
+  frontend:
+    build: /home/fwmoe/wfl-dashboard-2026/wfl-dashboard-frontend
+    container_name: wfl_dashboard_frontend
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - backend
+    networks:
+      - wfl_public
+      - wfl_internal
+    labels:
+      - traefik.enable=true
+      # Main route for frontend
+      - traefik.http.routers.dashboard.rule=Host(`dashboard.${DOMAIN}`)
+      - traefik.http.routers.dashboard.entrypoints=web
+      - traefik.http.services.dashboard.loadbalancer.server.port=80
+
+volumes:
+  dashboard_data:
+
+networks:
+  wfl_internal:
+    external: true
+  wfl_public:
+    external: true
